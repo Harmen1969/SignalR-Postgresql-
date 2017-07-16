@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - PostgreSQL - SignalR</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <!--Custom scripts\styles. See BundleConfig.cs-->
+    @*@Styles.Render("~/bundles/3rdPartyCss")
+    @Scripts.Render("~/bundles/3rdPartyScripts")*@   
+
+
+</head>
+<body>
+    <div class='navbar navbar-inverse navbar-default-top' role='navigation'>
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">PostgreSQL - SignalR</a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("PostgreSQL", "Tickets", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class='collapse navbar-collapse navHeaderCollapse'>
+                <ul class='nav navbar-nav navbar-left' >
+                    <li>@Html.ActionLink("Tickets", "Tickets", "Home")</li>
+                  
+                    <li>@Html.ActionLink("Code", "Information", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - PostgreSQL - SignalR - Harmen Stoopendaal</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
