@@ -1,5 +1,5 @@
 # SignalR-Postgresql
-SignalR real time notification using PostgreSQL
+Real time push notification using SignalR  and PostgreSQL
 
 An implemention of real time notification using SignalR and the PostgreSQL listen/notify feature.
 
