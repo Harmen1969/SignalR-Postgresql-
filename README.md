@@ -7,4 +7,4 @@ When changes (insert/delete/update) are made in a PostgreSQL database table, the
 
 # Npgsql
 The Npgsql NET data provider for PostgreSQL is not included in this repo.
-execute <b>Install-Package Npgsql</b> in the Package Manager Console.
+Execute <b>Install-Package Npgsql</b> in the Package Manager Console.
