@@ -1,7 +1,7 @@
 # SignalR-Postgresql
 Real time push notification using SignalR  and PostgreSQL
 
-An implemention of real time notification using SignalR and the PostgreSQL listen/notify feature.
+An implementation of real time notification using SignalR and the PostgreSQL listen/notify feature.
 
 When changes (insert/delete/update) are made in a PostgresSQL database table, the changed content is pushed to the webpage.
 
