@@ -100,7 +100,7 @@ namespace SignalRPostgresql.Controllers
                 NpgsqlConnection conn = new NpgsqlConnection(GetConnectionString());
                             
                 conn.Open();
-                // SELECT stuff from changed table...  
+                // SELECT records from changed table...  
                 // Query tickets.
                 sqlCmd.Connection = conn;
 
