@@ -11,28 +11,41 @@ namespace SignalRPostgresql.Hubs
     {
         private Object threadSafeCode = new Object();
 
-        public void Send(string jsonTickets, string action)
+        public void Send(string message, string action)
         {
-            Clients.All.showMessage(jsonTickets, action);
+            Clients.All.showMessage(message, action);
         }
 
         public void Start()
         {
             // check if application cache has previously been populated
-            if (String.IsNullOrEmpty((HttpRuntime.Cache["Tickets"] as string))) 
+
+            // PostgresSqlListener_New ==> Install-Package Npgsql (3.2.4.1)
+            if (String.IsNullOrEmpty((HttpRuntime.Cache["Tickets"] as string)))
             {
                 lock (threadSafeCode)
                 {
-                    PostgreSqlListener listener = new PostgreSqlListener();
+                    PostgresSqlListener_New list = new PostgresSqlListener_New();
+                    list.ListenForNotifications();
 
-                    string jsonTickets = listener.GetTicketsList();
+                    string jsonTickets = list.GetTicketsList();
                     HttpRuntime.Cache["Tickets"] = jsonTickets;
-                    Clients.Caller.addMessage(jsonTickets, "Select");                  
+                    Clients.Caller.addMessage(jsonTickets, "Select");
                 }
+
+                // PostgreSqlListener ==> Install-Package Npgsql -Version 2.2.7
+
+                //lock (threadSafeCode)
+                //{
+                //    PostgreSqlListener listener = new PostgreSqlListener();
+                //    string jsonTickets = listener.GetTicketsList();
+                //    HttpRuntime.Cache["Tickets"] = jsonTickets;
+                //    Clients.Caller.addMessage(jsonTickets, "Select");
+                //}
             }
             else
             {
-                Clients.Caller.addMessage((HttpRuntime.Cache["Tickets"] as string), "Select");           
+                Clients.Caller.addMessage((HttpRuntime.Cache["Tickets"] as string), "Select");
             }
         }
     }

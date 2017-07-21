@@ -30,7 +30,8 @@ namespace SignalRPostgresql.Controllers
          
             if (conn == null)
             {
-                conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=postgres;Password=postgres@2017;Database=postgres;MaxPoolSize=1000;Pooling=true;Timeout=500;SyncNotification=true");
+                conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=postgres;Password=postges@2017;Database=postgres;MINPOOLSIZE=10;MaxPoolSize=1000;Pooling=true;Timeout=500");               
+                
             }
 
             using (NpgsqlCommand sqlCmd = new NpgsqlCommand())
@@ -54,18 +55,19 @@ namespace SignalRPostgresql.Controllers
                     "coalesce(ASSIGNEDTO,'') AS ASSIGNEDTO," +
                     " TICKETSTATUS FROM TICKETS";
 
-                // Check if the postgreSQL notification event handler is already added to the notification property of the
+                // Check if Notification is already registered to OnNotification
                 // connection object
                 if (notificationflg == false)
                 {
-                    conn.Notification += new NotificationEventHandler(OnNotification);
-                    notificationflg = true;
-                }
+                    conn.Notification += OnNotification; // new Notifidler(OnNotification);
+                    notificationflg = true;                   
+                } 
 
                 using (NpgsqlDataReader reader = sqlCmd.ExecuteReader())
                 {
                     string DateAssignedstr = "";
                     while (reader.Read())
+                      //  conn.Wait();
                     {
                         // check if DateTime field DateAssigned is null
                         if (!reader.IsDBNull(2))
@@ -89,7 +91,9 @@ namespace SignalRPostgresql.Controllers
                         // Add this ticket to the TicketsDetailsList list object
                         ticketStatus.TicketsDetailsList.Add(ticket);
                     }
-                }                           
+                    reader.Close();
+                }
+               
             }
 
             lock (threadSafeCode)
@@ -99,7 +103,7 @@ namespace SignalRPostgresql.Controllers
             }      
 
             // Return JSON string ticket details
-            return (HttpRuntime.Cache["Tickets"] as string);
+            return (HttpRuntime.Cache["Tickets"] as string);            
         }
 
 
@@ -122,8 +126,12 @@ namespace SignalRPostgresql.Controllers
             {
                 actionType = "Insert";
             }
-            // Now broadcast the tickets and actiontype (SignalR)
-            context.Clients.All.addMessage(this.GetTicketsList(), actionType);          
+            // Now broadcast the tickets and actiontype (SignalR)            
+            context.Clients.All.addMessage(this.GetTicketsList(), actionType);
+
+            //// NotificationEventHandler pp = new NotificationEventHandler(OnNotification);
+            // conn.Notification -= OnNotification; // pp; // OnNotification;
+            //conn.Close(); //close connection for this event           
 
         }
 

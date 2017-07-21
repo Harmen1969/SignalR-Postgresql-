@@ -2,13 +2,13 @@
    
   
     // SignalR initialise    
-    var ticketshub = $.connection.ticketsHub;
+    var ticketshub = $.connection.ticketsHub;    
     
     // Show first notification
-    ticketshub.client.showMessage = function (jsonTickets, action) {
+    ticketshub.client.showMessage = function (message, action) {
         var actionName = action,
             toastMessage1 = {
-                text: actionName,
+                text: message + '-' +actionName,
                 sticky: false,
                 position: 'top-right',
                 type: 'success',
